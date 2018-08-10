@@ -12,7 +12,6 @@ The only third party code that you will need to include in your project is the G
 AMWebSocketConfiguration *configuration = [AMWebSocketConfiguration configurationWithURLString:@"wss://192.168.1.30:1443/websocket" ssl:YES port:1443];
 
 configuration.secWebSocketProtocol = @"some.protocol.string";
-configuration.secWebSocketExtensions = @"permessage-deflate; client_max_window_bits";
 configuration.additionalHeaders = @{
                                     @"X-My-App-Header": @"63323478-B503-49C6-A5B6-F79F8D2B5367"
                                     };
@@ -22,24 +21,24 @@ self.webSocket = webSocket; // Remember to keep reference
 
 [webSocket openWithCompletion:^(NSError *error) {
   
-  NSArray *jsonMessage = @[
-	@{
-      @"key1": @"value1",
-      @"key2": @"value2"
-    },
-    @{
-      @"hello": @"world"
-    }
-  ];
+    NSArray *jsonMessage = @[
+        @{
+            @"key1": @"value1",
+            @"key2": @"value2"
+        },
+        @{
+            @"hello": @"world"
+        }
+    ];
   
   NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonMessage options:0 error:nil];
   [webSocket sendData:jsonData completion:^(NSError *error, NSData *response) { // If you know that the server will immediately respond. Use with caution.
-  
+    
     id jsonResponse = [NSJSONSerialization JSONObjectWithData:response options:0 error:nil];
     NSLog(@"Got JSON response: %@", jsonResponse);
     
     [webSocket closeWithCompletion:^(NSError *error) {
-      NSLog(@"Socket closed");
+        NSLog(@"Socket closed");
     }];
   }];
 	

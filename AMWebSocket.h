@@ -64,8 +64,6 @@ extern NSString * const AMWebSocketErrorDomain;
 @property (nonatomic, readwrite, strong) NSString *secWebSocketProtocol;    // Not included if nil
 @property (nonatomic, readwrite, strong) NSString *secWebSocketKey;         // Defaults to randomized base64 string
 @property (nonatomic, readwrite, strong) NSString *secWebSocketExtensions;  // Semicolon separated string, ex: "permessage-deflate; client_max_window_bits". Not included if nil.
-@property (nonatomic, readwrite, strong) NSString *cacheControl;            // Comma separated string, defaults to "no-cache"
-@property (nonatomic, readwrite, strong) NSString *pragma;                  // Defaults to "no-cache"
 @property (nonatomic, readwrite, strong) NSString *origin;                  // Not included if nil
 @property (nonatomic) int secWebSocketVersion;                              // Defaults to 13
 

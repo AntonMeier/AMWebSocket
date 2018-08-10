@@ -367,16 +367,16 @@ typedef struct AMWebSocketLongPayloadLength AMWebSocketLongPayloadLength;
     }
     
     NSString *request = [NSString stringWithFormat:@"GET %@ HTTP/1.1\r\n"
-                            "Upgrade: WebSocket\r\n"
-                            "Connection: Upgrade\r\n"
-                            "Host: %@\r\n"
-                            "Pragma: %@\r\n"
-                            "Cache-Control: %@\r\n"
-                            "Sec-WebSocket-Key: %@\r\n"
-                            "Sec-WebSocket-Version: %d\r\n"
-                            "%@"
-                            "\r\n",
-                            requestPath, self.configuration.url.host, self.configuration.pragma, self.configuration.cacheControl, self.configuration.secWebSocketKey, self.configuration.secWebSocketVersion, additionalHeadersString];
+                         "Host: %@\r\n"
+                         "Upgrade: WebSocket\r\n"
+                         "Connection: Upgrade\r\n"
+                         "Sec-WebSocket-Key: %@\r\n"
+                         "Sec-WebSocket-Version: %d\r\n"
+                         "%@"
+                         "\r\n",
+                         requestPath, [NSString stringWithFormat:@"%@:%d", self.configuration.url.host, self.configuration.port], self.configuration.secWebSocketKey, self.configuration.secWebSocketVersion, additionalHeadersString];
+    
+    NSLog(@"%@", request);
     
     [_socket writeData:[request dataUsingEncoding:NSASCIIStringEncoding] withTimeout:5 tag:AMWebSocketTagHandshake];
 }
@@ -493,8 +493,6 @@ typedef struct AMWebSocketLongPayloadLength AMWebSocketLongPayloadLength;
         uint8_t randBuf[16] = {0};
         arc4random_buf(randBuf, sizeof(randBuf));
         _secWebSocketKey = [[NSData dataWithBytes:randBuf length:sizeof(randBuf)] base64EncodedStringWithOptions:0]; // Randomly selected 16-byte value that has been base64-encoded according to the stadard.
-        _cacheControl = @"no-cache";
-        _pragma = @"no-cache";
     }
     
     return self;
