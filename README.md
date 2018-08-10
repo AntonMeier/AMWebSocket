@@ -21,27 +21,27 @@ AMWebSocket *webSocket = [AMWebSocket webSocketWithConfiguration:configuration];
 self.webSocket = webSocket; // Remember to keep reference
 
 [webSocket openWithCompletion:^(NSError *error) {
+  
+  NSArray *jsonMessage = @[
+	@{
+      @"key1": @"value1",
+      @"key2": @"value2"
+    },
+    @{
+      @"hello": @"world"
+    }
+  ];
+  
+  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonMessage options:0 error:nil];
+  [webSocket sendData:jsonData completion:^(NSError *error, NSData *response) { // If you know that the server will immediately respond. Use with caution.
+  
+    id jsonResponse = [NSJSONSerialization JSONObjectWithData:response options:0 error:nil];
+    NSLog(@"Got JSON response: %@", jsonResponse);
     
-	NSArray *jsonMessage = @[
-								@{
-									@"key1": @"value1",
-									@"key2": @"value2"
-									},
-								@{
-									@"hello": @"world"
-								}
-							];
-
-	    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonMessage options:0 error:nil];
-	    [webSocket sendData:jsonData completion:^(NSError *error, NSData *response) { // If you know that the server will immediately respond. Use with caution.
-    
-	        id jsonResponse = [NSJSONSerialization JSONObjectWithData:response options:0 error:nil];
-	        NSLog(@"Got JSON response: %@", jsonResponse);
-    
-	        [webSocket closeWithCompletion:^(NSError *error) {
-	            NSLog(@"Socket closed");
-	        }];
-	    }];
+    [webSocket closeWithCompletion:^(NSError *error) {
+      NSLog(@"Socket closed");
+    }];
+  }];
 	
 }];
 ```
@@ -55,7 +55,7 @@ webSocket.delegate = self;
 
 - (void)socket:(AMWebSocket *)socket didReceiveData:(NSData *)data;
 {
-	NSLog(@"Data arrived!");
+  NSLog(@"Data arrived!");
 }
 
 ```
