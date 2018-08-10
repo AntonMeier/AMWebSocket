@@ -9,7 +9,7 @@ The only third party code that you will need to include in your project is the G
 **Usage**
 
 ```obj-c
-AMWebSocketConfiguration *configuration = [AMWebSocketConfiguration configurationWithURLString:[NSString stringWithFormat: @"wss://192.168.1.30:1443/websocket", speaker.ip] ssl:YES port:1443];
+AMWebSocketConfiguration *configuration = [AMWebSocketConfiguration configurationWithURLString:@"wss://192.168.1.30:1443/websocket" ssl:YES port:1443];
 
 configuration.secWebSocketProtocol = @"some.protocol.string";
 configuration.secWebSocketExtensions = @"permessage-deflate; client_max_window_bits";
